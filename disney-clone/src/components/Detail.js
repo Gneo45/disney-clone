@@ -67,6 +67,7 @@ min-height: 170px;
 width: 35vw;
 min-width: 200px;
 filter:invert(100);
+margin-top: 60px;
 
 img{
     width: 100%;
@@ -140,5 +141,6 @@ line-height: 1.4;
 color: rgb(249,249,249);
 font-size: 20px;
 margin-top: 16px;
+max-width: 760px;
 
 `
