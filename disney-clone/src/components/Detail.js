@@ -1,14 +1,44 @@
-import React from "react";
+import React, {useEffect, useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom"
+import db from "../firebase";
 
 function Detail() {
+
+const { id } = useParams();
+
+const [movie, setMovie] = useState()
+
+useEffect(() => {
+
+    //Grab Movies info from db
+  db.collection("movies")
+  .doc(id)
+  .get()
+  .then((doc)=> {
+    if(doc.exists){
+        //save the movie data
+        setMovie(doc.data());
+
+    }else{
+        //redirect to homepage
+    }
+  })
+
+}, [id])
+
+
+
+
   return (
   <Container>
+      {movie && (
+      <>
       <Background>
-    <img src="https://static.hitek.fr/img/actualite/ill_m/2053891510/bao-pixar-short-lead.jpg" /> 
+    <img src={movie.backgroundImg} /> 
       </Background>
       <ImageTitle>
-          <img src="https://upload.wikimedia.org/wikipedia/fr/1/1a/Bao_logo.png"/>
+          <img src={movie.titleImg}/>
           </ImageTitle>
           <Controls>
               <PlayButton>
@@ -27,11 +57,13 @@ function Detail() {
     </GroupWatchButton>
           </Controls>
           <SubTitle>
-              2018 • 7m •  Family, Fantasy, Kids, Animation
+              {movie.subTitle}
           </SubTitle>
           <Description>
-          The film is about an aging and lonely Chinese Canadian mother suffering from empty nest syndrome, who receives an unexpected second chance at motherhood when she makes a steamed bun that comes to life.
+          {movie.description}
               </Description>
+              </>
+      )}
   </Container>
   )
 }
@@ -42,6 +74,7 @@ const Container = styled.div`
 min-height: calc(100vh - 70px);
 padding: 0 calc(3.5vw + 5px);
 position: relative;
+
 `;
 
 const Background = styled.div`
@@ -51,12 +84,13 @@ left: 0;
 bottom: 0;
 right: 0;
 z-index: -1;
-opacity: 0.8;
+opacity: 0.6;
 
 img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+    
 }
 `
 
@@ -64,6 +98,8 @@ const ImageTitle = styled.div`
 
 height: 30vh;
 min-height: 170px;
+max-height: 250px;
+padding-bottom: 25px;
 width: 35vw;
 min-width: 200px;
 filter:invert(100);
@@ -73,6 +109,7 @@ img{
     width: 100%;
     height: 100%;
     object-fit: contain;
+   
 }
 `
 
