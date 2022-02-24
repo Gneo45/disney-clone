@@ -49,6 +49,8 @@ const signOut = () => {
   })
 }
 
+const goToHome=()=> history("/")
+
   return (
     <Nav>
       <Logo src="/images/logo.svg" />
@@ -61,7 +63,7 @@ const signOut = () => {
          ): 
         <>
          <NavMenu>
-        <a>
+        <a onClick={goToHome}>
           <img src="/images/home-icon.svg" />
           <span>HOME</span>
         </a>
